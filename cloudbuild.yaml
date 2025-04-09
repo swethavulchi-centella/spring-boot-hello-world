@@ -27,6 +27,8 @@ steps:
         '--to-target=dev'
       ]
 
+options:
+  logging: CLOUD_LOGGING_ONLY  # ✅ Fix: This avoids the logs bucket error
 substitutions:
   _IMAGE: 'gcr.io/YOUR_PROJECT_ID/springboot-service'
 
