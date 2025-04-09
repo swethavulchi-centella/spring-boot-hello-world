@@ -24,7 +24,7 @@ steps:
         '--delivery-pipeline=spring-boot-app-cd',
         '--region=us-central1',
         '--source=.',
-        '--to-target=springboot-dev'
+        '--to-target=dev'
       ]
 
 options:
