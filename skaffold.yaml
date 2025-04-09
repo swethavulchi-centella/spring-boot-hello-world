@@ -9,3 +9,11 @@ deploy:
   cloudrun:
     projectid: cascade-454406
     region: us-central1
+
+profiles:
+  - name: dev
+    deploy:
+      cloudrun:
+        projectid: cascade-454406
+        region: us-central1
+
