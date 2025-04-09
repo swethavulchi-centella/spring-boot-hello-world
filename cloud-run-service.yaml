@@ -2,8 +2,12 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: springboot-service-cloudrun-dev
+  annotations:
+    run.googleapis.com/ingress: all
 spec:
   template:
     spec:
       containers:
       - image: gcr.io/cascade-454406/springboot-service
+        ports:
+          - containerPort: 8080
