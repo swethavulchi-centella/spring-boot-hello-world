@@ -5,6 +5,7 @@ metadata:
 build:
   artifacts:
     - image: gcr.io/cascade-454406/springboot-service
-manifests:
-  rawYaml:
-    - cloud-run-service.yaml
+deploy:
+  kubectl:
+    manifests:
+      - cloud-run-service.yaml
