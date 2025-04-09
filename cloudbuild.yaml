@@ -28,6 +28,7 @@ steps:
       ]
 
 substitutions:
-  _IMAGE: 'us-central1-docker.pkg.dev/YOUR_PROJECT_ID/springboot-repo/springboot-service'
+  _IMAGE: 'gcr.io/YOUR_PROJECT_ID/springboot-service'
+
 
 timeout: 900s
