@@ -1,12 +1,11 @@
-apiVersion: skaffold/v4beta6
+apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: springboot-app
 build:
   artifacts:
-    - image: gcr.io/YOUR_PROJECT_ID/springboot-service
+    - image: gcr.io/cascade-454406/springboot-service
 deploy:
-  cloudrun:
+  googleCloudRun:
     region: us-central1
     serviceName: springboot-service-cloudrun-dev
-
