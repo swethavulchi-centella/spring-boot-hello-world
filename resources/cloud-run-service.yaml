@@ -1,0 +1,9 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: springboot-service-cloudrun-dev  # This is your Cloud Run service name
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/cascade-454406/springboot-service
