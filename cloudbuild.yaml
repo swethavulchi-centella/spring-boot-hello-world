@@ -1,9 +1,9 @@
 substitutions:
   _PROFILE: ''
-  
-  steps:
+  _IMAGE: 'gcr.io/cascade-454406/springboot-service'
 
-    # Step 1: Set profile based on branch
+steps:
+  # Step 1: Set profile based on branch
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: 'Set Profile'
     entrypoint: 'bash'
@@ -15,41 +15,50 @@ substitutions:
         else
           echo "_PROFILE=dev" >> /workspace/profile.env
         fi
-        
-  # Step 1: Build the JAR
+
+  # Step 2: Build the JAR
   - name: 'gcr.io/cloud-builders/mvn'
+    id: 'Build JAR'
     entrypoint: 'mvn'
     args: ['clean', 'package', '-DskipTests']
 
-  # Step 2: Build Docker image
+  # Step 3: Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '${_IMAGE}', '.']
-
-  # Step 3: Push Docker image to Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '${_IMAGE}']
-
-  # Step 4: Create a release and deploy to dev using Cloud Deploy
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
+    id: 'Build Image'
+    entrypoint: 'bash'
     args:
-      [
-        'deploy',
-        'releases',
-        'create',
-        'release-${BUILD_ID}',
-        '--delivery-pipeline=spring-boot-app-cd',
-        '--region=us-central1',
-        '--source=.',
-        '--to-target=${_PROFILE}',
-        --skaffold-file=skaffold.yaml,
-        --skaffold-profile=${_PROFILE}
-      ]
+      - -c
+      - |
+        source /workspace/profile.env
+        docker build -t ${_IMAGE} .
+
+  # Step 4: Push Docker image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Push Image'
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        source /workspace/profile.env
+        docker push ${_IMAGE}
+
+  # Step 5: Create a release and deploy using Cloud Deploy
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'Deploy with Cloud Deploy'
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        source /workspace/profile.env
+        gcloud deploy releases create release-${BUILD_ID} \
+          --delivery-pipeline=spring-boot-app-cd \
+          --region=us-central1 \
+          --source=. \
+          --to-target=${_PROFILE} \
+          --skaffold-file=skaffold.yaml \
+          --skaffold-profile=${_PROFILE}
 
 options:
-  logging: CLOUD_LOGGING_ONLY  # ✅ Fix: This avoids the logs bucket error
-substitutions:
-  _IMAGE: 'gcr.io/cascade-454406/springboot-service'
-
+  logging: CLOUD_LOGGING_ONLY
 
 timeout: 900s
