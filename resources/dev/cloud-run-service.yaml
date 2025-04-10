@@ -10,9 +10,15 @@ spec:
           env:
             - name: ENV
               value: dev
-          envFrom:
-            - configMapRef:
-                name: springboot-config-dev
+            - name: URL
+              value: https://dev
+            - name: PASSWORD
+              value: secretdev
+            - name: FEATURE_FLAG_X
+              value: true
+            - name: SUPPORT_EMAIL
+              value: dev-support@yourdomain.com           
+
       containerConcurrency: 80
   traffic:
     - latestRevision: true
