@@ -1,0 +1,16 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: springboot-service-cloudrun-main
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/cascade-454406/springboot-service
+          env:
+            - name: ENV
+              value: main
+      containerConcurrency: 80
+  traffic:
+    - latestRevision: true
+      percent: 100
