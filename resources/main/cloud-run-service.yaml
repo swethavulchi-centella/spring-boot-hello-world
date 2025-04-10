@@ -18,9 +18,7 @@ spec:
               value: true
             - name: SUPPORT_EMAIL
               value: main-support@yourdomain.com
-          envFrom:
-            - configMapRef:
-                name: springboot-config-main
+
       containerConcurrency: 80
   traffic:
     - latestRevision: true
