@@ -10,6 +10,14 @@ spec:
           env:
             - name: ENV
               value: main
+            - name: URL
+              value: https://main
+            - name: PASSWORD
+              value: secretmain
+            - name: FEATURE_FLAG_X
+              value: true
+            - name: SUPPORT_EMAIL
+              value: main-support@yourdomain.com
           envFrom:
             - configMapRef:
                 name: springboot-config-main
