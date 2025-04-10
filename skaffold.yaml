@@ -8,6 +8,7 @@ profiles:
     manifests:
       rawYaml:
         - resources/dev/cloud-run-service.yaml
+        - resources/dev/configmap.yaml
     deploy:
       cloudrun:
         projectid: cascade-454406
@@ -17,6 +18,7 @@ profiles:
     manifests:
       rawYaml:
         - resources/main/cloud-run-service.yaml
+        - resources/main/configmap.yaml
     deploy:
       cloudrun:
         projectid: cascade-454406
