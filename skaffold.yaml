@@ -1,0 +1,23 @@
+apiVersion: skaffold/v4beta2
+kind: Config
+metadata:
+  name: springboot-service
+
+profiles:
+  - name: dev
+    manifests:
+      rawYaml:
+        - resources/dev/cloud-run-service.yaml
+    deploy:
+      cloudrun:
+        projectid: cascade-454406
+        region: us-central1
+
+  - name: main
+    manifests:
+      rawYaml:
+        - resources/main/cloud-run-service.yaml
+    deploy:
+      cloudrun:
+        projectid: cascade-454406
+        region: us-central1
