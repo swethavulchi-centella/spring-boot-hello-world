@@ -10,6 +10,9 @@ spec:
           env:
             - name: ENV
               value: dev
+          envFrom:
+            - configMapRef:
+                name: springboot-config-dev
       containerConcurrency: 80
   traffic:
     - latestRevision: true
